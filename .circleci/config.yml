@@ -50,14 +50,12 @@ jobs:
           name: build docker image
           command: |
             docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
-            # cd service1
-            # docker build -f Dockerfile  -t service1:k8s.v1.3 .
-            # docker tag amrhashem/service1:k8s.v1.3
-            # docker push amrhashem/service1:k8s.v1.3
-            # cd ../service2
-            # docker build -f Dockerfile  -t service2:k8s.v1.3 .
-            # docker tag amrhashem/service2:k8s.v1.3
-            # docker push amrhashem/service2:k8s.v1.3         
+            cd service1
+            docker build -f Dockerfile  -t amrhashem/service1:k8s.v1.3 .
+            docker push amrhashem/service1:k8s.v1.3
+            cd ../service2
+            docker build -f Dockerfile  -t amrhashem/service2:k8s.v1.3 .
+            docker push amrhashem/service2:k8s.v1.3         
             
 
   k8sdeploy:
