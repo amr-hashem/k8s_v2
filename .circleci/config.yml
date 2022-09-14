@@ -77,22 +77,24 @@ jobs:
       - run:
           name: Create Cluster
           command: |
-            eksctl create cluster -f ./eks-config.yml
+            aws configure set aws_access_key_id ${aws_access_key_id}
+            aws configure set aws_secret_access_key ${aws_secret_access_key}
+            eksctl create cluster -f ./k8s/eks-config.yml
       - run:
-          name: Create Cluster for service1
+          name: Add service1 to cluster
           command: |
             cd service1
             kubectl apply -f ./service1.yml
       - run:
-          name: Check on the status of the ReplicationController using this command
-          command: |
-            kubectl describe replicationcontrollers
-            kubectl describe services bluegreenlb
-      - run:
-          name: Create Cluster for service2
+          name: Add service2 to cluster
           command: |
             cd service2
             kubectl apply  -f ./service2.yml
+      - run:
+          name: Check on the status of the ReplicationController
+          command: |
+            kubectl describe replicationcontrollers
+            kubectl describe services bluegreenlb
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
@@ -102,5 +104,5 @@ workflows:
       - build-and-test
       - docker-build-push:
           requires: [build-and-test]
-      # - k8sdeploy:
-      #     requires: [docker-build-push]
+      - k8sdeploy:
+          requires: [docker-build-push]
