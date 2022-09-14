@@ -80,7 +80,7 @@ jobs:
             aws configure set aws_secret_access_key ${aws_secret_access_key}
             # eksctl create cluster -f ./k8s/eks-config.yml
             # eksctl create cluster --name main-cluster --version 1.20 --region us-west-1 --nodegroup-name linux-nodes --node-type t2.micro --nodes 2
-            aws eks --region {aws_region} update-kubeconfig --name {aws_cluster_name}
+            aws eks --region ${aws_region} update-kubeconfig --name ${aws_cluster_name}
       - run:
           name: Deploy services to cluster
           command: |
