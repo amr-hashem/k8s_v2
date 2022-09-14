@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: service1
-        image: amrhashem/service1:k8s.v2.latest
+        image: amrhashem/service1:k8s.v1.3
         ports:
         - containerPort: 8080
 ---

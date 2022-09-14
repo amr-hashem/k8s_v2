@@ -73,22 +73,25 @@ jobs:
             wget -q https://storage.googleapis.com/kubernetes-release/release/$(wget -q -O - https://storage.googleapis.com/kubernetes-release/release/stable.txt -O -)/bin/linux/amd64/kubectl -O kubectl
             chmod +x ./kubectl && mv ./kubectl /usr/local/bin/kubectl
             chmod +x /usr/local/bin/kubectl
-      # - run:
-      #     name: Create Cluster
-      #     command: |
-      #       aws configure set aws_access_key_id ${aws_access_key_id}
-      #       aws configure set aws_secret_access_key ${aws_secret_access_key}
-      #       eksctl create cluster -f ./k8s/eks-config.yml
       - run:
-          name: Add service1 to cluster
-          command: |
-            cd service1
-            kubectl apply -f ./service1.yml
+        name: create and connect to cluster
+        command: |
+          aws configure set aws_access_key_id ${aws_access_key_id}
+          aws configure set aws_secret_access_key ${aws_secret_access_key}
+          # eksctl create cluster -f ./k8s/eks-config.yml
+          # eksctl create cluster \
+          # --name main-cluster \
+          # --version 1.20 \
+          # --region us-west-1 \
+          # --nodegroup-name linux-nodes \
+          # --node-type t2.micro \
+          # --nodes 2
+          aws eks --region {aws_region} update-kubeconfig --name {aws_cluster_name}
       - run:
-          name: Add service2 to cluster
+          name: Deploy services to cluster
           command: |
-            cd service2
-            kubectl apply  -f ./service2.yml
+            kubectl apply -f ./service1/service1.yml
+            kubectl apply -f ./service2/service2.yml
       - run:
           name: Check on the status of the ReplicationController
           command: |
