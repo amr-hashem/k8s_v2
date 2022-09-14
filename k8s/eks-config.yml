@@ -3,7 +3,7 @@ kind: ClusterConfig
 
 metadata:
   name: k8s-cluster
-  region: us-east-1
+  region: us-west-1
 
 nodeGroups:
   - name: main-ng
