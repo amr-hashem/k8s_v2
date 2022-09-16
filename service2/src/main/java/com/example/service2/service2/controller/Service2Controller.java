@@ -18,6 +18,7 @@ public class Service2Controller {
 
     @GetMapping("getEmployee")
     public Employee getEmployee() {
+
         return proxy.getEmployee();
     }
 }
