@@ -99,5 +99,5 @@ workflows:
       - build-and-test
       - docker-build-push:
           requires: [build-and-test]
-      - k8sdeploy:
-          requires: [docker-build-push]
+      # - k8sdeploy:
+      #     requires: [docker-build-push]
